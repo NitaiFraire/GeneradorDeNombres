@@ -32,29 +32,33 @@ document.querySelector('#generar-nombre').addEventListener('submit', function(e)
         url += `amount=${cantidad}&`;
     }
 
-    // crear fetch
-    fetch(url)
-    .then(function(response){
+    // conectar con ajax
+    // iniciar xmlrequest
+    const xhr = new XMLHttpRequest();
 
-        return response.json();
-    })
-    .then(function(data){
+    // abrir conexion
+    xhr.open('GET', url, true);
 
-        let html = '<h2>Nombres generados</h2>';
+    // datos e impresion del template
+    xhr.onload = function(){
 
-        html += `<ul class="lista">`;
+        if(this.status === 200){
 
-        data.forEach(function(nombre){
+            const nombres = JSON.parse(this.responseText);
 
-            html += `<li>${nombre.name}</li>`;
+            // generar html
+            let htmlNombres = '<h2>Nombres Generados</h2>';
+            htmlNombres += '<ul class="lista">';
 
-        });
+            // imprimir cada nombre
+            nombres.forEach(function(nombre){ htmlNombres += `<li>${nombre.name}</li>`; });
 
-        html += `</ul>`;
+            htmlNombres += '</ul>';
 
-        document.getElementById('resultado').innerHTML = html;
-    })
-    .catch(function(error){
-        console.log(error);
-    });
+            document.getElementById('resultado').innerHTML = htmlNombres;
+        }
+    }
+
+    // enviar el request
+    xhr.send();
 });
