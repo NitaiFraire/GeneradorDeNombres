@@ -34,27 +34,18 @@ document.querySelector('#generar-nombre').addEventListener('submit', function(e)
 
     // crear fetch
     fetch(url)
-    .then(function(response){
-
-        return response.json();
-    })
-    .then(function(data){
+    .then( response => response.json() )
+    .then( data => {
 
         let html = '<h2>Nombres generados</h2>';
 
         html += `<ul class="lista">`;
 
-        data.forEach(function(nombre){
-
-            html += `<li>${nombre.name}</li>`;
-
-        });
+        data.forEach( nombre => { html += `<li>${nombre.name}</li>`; });
 
         html += `</ul>`;
 
         document.getElementById('resultado').innerHTML = html;
     })
-    .catch(function(error){
-        console.log(error);
-    });
+    .catch( error => console.log(error) );
 });
